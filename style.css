@@ -107,10 +107,7 @@ label.form-check-label:focus,
     justify-content: space-around;
     padding: 20px;
     margin: 0 10px;
-}
-
-.card-body {
-    border-radius: 0% !important;
+    flex-wrap: wrap;
 }
 
 .card {
@@ -118,10 +115,32 @@ label.form-check-label:focus,
     -moz-box-shadow: 10px 10px 11px 0px rgba(0, 0, 0, 0.21);
     box-shadow: 10px 10px 11px 0px rgba(0, 0, 0, 0.21);
     border: none;
+    margin: 9px;
+    height: 368px;
 }
 
+
+.card-body {
+    border-radius: 0% !important;
+    /* height: 180px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
 .card-title {
-    padding-left: 100px;
+    /* padding-left: 100px; */
+    text-align: center;
+}
+
+.container-price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    width: 220px;
 }
 
 .details-container {
