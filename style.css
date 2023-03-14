@@ -180,6 +180,27 @@ label.form-check-label:focus,
     box-shadow: 13px 13px 43px 16px rgba(0, 0, 0, 0.44);
 }
 
+.card-img{
+    width: auto;
+}
+
+.card-list{
+    padding-left: 70px;
+    padding-top: 10px;
+    width: 300px;
+}
+
+.list-group-item{
+    font-weight: bold;
+    color: #dc0f71;
+}
+
+.list-group-item span{
+    font-weight: 400;
+    color: black;
+}
+
+
 .description {
     /* width: 100px; */
     /* height: 100px; */
