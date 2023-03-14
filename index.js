@@ -1,11 +1,15 @@
-const all = document.querySelectorAll('div')
 const cardSection = document.querySelector('#cards')
+const containerCategories = document.querySelector('#category')
+let categ = []
+
+var input, filter;
+input = document.getElementById('search');
 
 var data = {
     "currentDate": "2022-01-01",
     "events": [
         {
-            _id: 1,
+            id: 1,
             "image": "https://i.postimg.cc/Fs03hQDt/Collectivities-Party.jpg",
             "name": "Collectivities Party",
             "date": "2021-12-12",
@@ -17,7 +21,7 @@ var data = {
             "price": 5
         },
         {
-            _id: 2,
+            id: 2,
             "image": "https://i.postimg.cc/ZmD3Xf57/Korean-style.jpg",
             "name": "Korean style",
             "date": "2022-08-12",
@@ -29,7 +33,7 @@ var data = {
             "price": 10
         },
         {
-            _id: 3,
+            id: 3,
             "image": "https://i.postimg.cc/GmHRkbNV/Jurassic-Park.jpg",
             "name": "Jurassic Park",
             "date": "2021-11-02",
@@ -41,7 +45,7 @@ var data = {
             "price": 15
         },
         {
-            _id: 4,
+            id: 4,
             "image": "https://i.postimg.cc/c4C2zXm8/Parisian-Museum.jpg",
             "name": "Parisian Museum",
             "date": "2022-11-02",
@@ -53,7 +57,7 @@ var data = {
             "price": 3500
         },
         {
-            _id: 5,
+            id: 5,
             "image": "https://i.postimg.cc/KYD0jMf2/comicon.jpg",
             "name": "Comicon",
             "date": "2021-02-12",
@@ -65,7 +69,7 @@ var data = {
             "price": 54
         },
         {
-            _id: 6,
+            id: 6,
             "image": "https://i.postimg.cc/RZ9fH4Pr/halloween.jpg",
             "name": "Halloween Night",
             "date": "2022-02-12",
@@ -77,7 +81,7 @@ var data = {
             "price": 12
         },
         {
-            _id: 7,
+            id: 7,
             "image": "https://i.postimg.cc/PrMJ0ZMc/Metallica-in-concert.jpg",
             "name": "Metallica in concert",
             "date": "2022-01-22",
@@ -89,7 +93,7 @@ var data = {
             "price": 150
         },
         {
-            _id: 8,
+            id: 8,
             "image": "https://i.postimg.cc/KvsSK8cj/Electronic-Fest.jpg",
             "name": "Electronic Fest",
             "date": "2021-01-22",
@@ -101,7 +105,7 @@ var data = {
             "price": 250
         },
         {
-            _id: 9,
+            id: 9,
             "image": "https://i.postimg.cc/fyLqZY9K/10-K-for-life.jpg",
             "name": "10K for life",
             "date": "2021-03-01",
@@ -113,7 +117,7 @@ var data = {
             "price": 3
         },
         {
-            _id: 10,
+            id: 10,
             "image": "https://i.postimg.cc/zv67r65z/15kny.jpg",
             "name": "15K NY",
             "date": "2022-03-01",
@@ -125,7 +129,7 @@ var data = {
             "price": 3
         },
         {
-            _id: 11,
+            id: 11,
             "image": "https://i.postimg.cc/Sst763n6/book1.jpg",
             "name": "School's book fair",
             "date": "2022-10-15",
@@ -137,7 +141,7 @@ var data = {
             "price": 1
         },
         {
-            _id: 12,
+            id: 12,
             "image": "https://i.postimg.cc/05FhxHVK/book4.jpg",
             "name": "Just for your kitchen",
             "date": "2021-11-09",
@@ -149,7 +153,7 @@ var data = {
             "price": 100
         },
         {
-            _id: 13,
+            id: 13,
             "image": "https://i.postimg.cc/vH52y81C/cinema4.jpg",
             "name": "Batman",
             "date": "2021-03-11",
@@ -161,7 +165,7 @@ var data = {
             "price": 225
         },
         {
-            _id: 14,
+            id: 14,
             "image": "https://i.postimg.cc/T3C92KTN/scale.jpg",
             "name": "Avengers",
             "date": "2022-10-15",
@@ -175,11 +179,13 @@ var data = {
     ]
 };
 
+let events = data.events
 // crea el elemnto card
 
 function createElement(e) {
 
     const card = document.createElement('div');
+    card.id = 'card'
     card.classList.add('card');
     card.style.width = '18rem';
 
@@ -209,7 +215,7 @@ function createElement(e) {
     const btn = document.createElement('a');
     btn.classList.add('btn');
     btn.classList.add('btn-primary');
-    btn.href = '/details.html'
+    btn.href = `/details.html?id=${e.id}`
     btn.innerHTML = 'Ver mas...';
 
     contPrice.appendChild(price);
@@ -225,10 +231,80 @@ function createElement(e) {
 
 // itera sobre los elementos del array
 
-function iterateElements() {
-    data.events.forEach(e => {
+function iterateElements(events) {
+    deleteElements();
+    events.forEach(e => {
         createElement(e);
     })
 }
 
-iterateElements()
+function deleteElements() {
+    const divs = document.querySelectorAll('#card');
+    if (divs.length != 0) {
+        for (i = 0; i < divs.length; i++) {
+            cardSection.removeChild(divs[i]);
+        }
+    }
+}
+
+function categories() {
+    category = []
+    data.events.forEach(e => {
+        category.push(e.category)
+    })
+    categ = [...new Set(category)];
+    addCateg(categ)
+}
+
+function addCateg(categ) {
+    categ.forEach((c, i) => {
+        const div = document.createElement('div')
+        div.classList.add('form-check')
+        div.classList.add('form-check-inline')
+
+        const input = document.createElement('input')
+        input.classList.add('form-check-input')
+        input.type = 'checkbox'
+        input.value = c
+        input.id = `inlineCheckbox${i}`
+        input.addEventListener('change', change);
+
+        const label = document.createElement('label')
+        label.classList.add('form-check-label')
+        label.textContent = c
+        label.setAttribute('for', `inlineCheckbox${i}`)
+
+        containerCategories.appendChild(div)
+        div.appendChild(input)
+        div.appendChild(label)
+    })
+}
+
+function search() {
+    filter = input.value.toLowerCase();
+
+    let array = events.filter(e => {
+        return e.name.toLowerCase().indexOf(filter) > -1;
+    })
+    iterateElements(array)
+}
+input.addEventListener('keyup', search);
+
+function change() {
+    let modelsChecked = document.querySelectorAll('input.form-check-input:checked')
+    let array = data.events.filter(e => {
+        if (modelsChecked.length != 0) {
+            for (i = 0; i < modelsChecked.length; i++) {
+                return e.category.indexOf(modelsChecked[i].value) > -1
+            }
+        }
+        return data
+    })
+    events = array
+    search()
+}
+
+search()
+categories()
+
+
