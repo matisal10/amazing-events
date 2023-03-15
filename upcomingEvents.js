@@ -183,6 +183,12 @@ var data = {
 upcomingEvents = []
 events = upcomingEvents
 
+const containerC = document.getElementById('category')
+
+containerC.addEventListener('change', () => {
+    filterCategory(upcomingEvents)
+})
+
 function upcomingEvenstArray(){
     const date = data.currentDate
     data.events.forEach(e => {
@@ -275,7 +281,6 @@ function addCateg(categ) {
         input.type = 'checkbox'
         input.value = c
         input.id = `inlineCheckbox${i}`
-        input.addEventListener('change', change);
 
         const label = document.createElement('label')
         label.classList.add('form-check-label')
@@ -299,21 +304,26 @@ function search() {
 
 input.addEventListener('keyup', search);
 
-function change() {
-    let modelsChecked = document.querySelectorAll('input.form-check-input:checked')
-    let array = upcomingEvents.filter(e => {
-        if (modelsChecked.length != 0) {
-            for (i = 0; i < modelsChecked.length; i++) {
-                return e.category.indexOf(modelsChecked[i].value) > -1
-            }
-        }
-        return data
-    })
-    events = array
-    search()
+function filterCategory(eventos) {
+    let arrayC = []
+    let checkboxs = document.querySelectorAll("input[type='checkbox']")
+    let arraycheck = Array.from(checkboxs)
+    let checkChecked = arraycheck.filter(check => check.checked)
+    if (checkChecked.length == 0) {
+        events = eventos
+        search()
+
+    }
+    else {
+        let arrayCheckeds = checkChecked.map(c => c.value)
+        arrayC = eventos.filter(e => {
+            return arrayCheckeds.includes(e.category)
+        })
+        events = arrayC
+        search()
+    }
 }
 
-// iterateElements()
 upcomingEvenstArray()
 search()
 categories()
